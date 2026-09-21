@@ -6,6 +6,27 @@ The program will be implemented in Python and run inside a Docker environment. D
 
 The program will provide a command-line interface for controlling a TurtleSim turtle using higher-level movement commands.
 
+Program Structure
+-
+The program is broken down into three main components:
+### Command Line Interface
+* Reads commands from the user
+* Uses protobuf to serialize the user command
+
+### ROS 2 Controller
+* Receives and deserializes protobuf commands
+* Translate commands into movement operation that'll be performed
+* Uses TurtleSim position feedback to determine when the movement is complete
+
+### TurtleSim
+* Receives velocity commands and outputs its current position and orientation back
+
+Protobuf Communication
+-
+* Protobuf will serve as a interface between the user and the ROS controller, standardizing commands being sent
+* Protobuf will essentially act as a middleman that will translate basic commands into something the ROS controller can read
+* [Idea] This creates possibility for upgrades to the user end, such as a GUI or a mobile app
+
 Design / Pseudocode
 -
 ### Main Function
@@ -38,3 +59,14 @@ Design / Pseudocode
 * Compare the actual position/orientation against the expected position/orientation from the current movement command.
 * Use this feedback to determine when a movement is complete.
 * Output the turtle's current position to the user.
+
+Project Pipeline
+-
+1. Implement initial command-line interface (protobuf)
+2. Create protobuf command format
+3. Create ROS 2 Controller
+4. Implement */turtle1/cmd_vel* movement
+5. Implement */turtle1/pose* feedback
+6. Implement distance based movement and calculations
+7. Implement angle-based turning and calculations
+8. Connect protobuf with ROS 2 controller
