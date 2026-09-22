@@ -1,4 +1,4 @@
-Opens Turtlesim using docker port
+For opening Turtlesim using docker port
 
 Keep XQuartz open. In a normal macOS Terminal window, allow local display
 connections:

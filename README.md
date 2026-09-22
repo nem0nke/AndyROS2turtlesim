@@ -6,6 +6,9 @@ The program will be implemented in Python and run inside a Docker environment. D
 
 The program will provide a command-line interface for controlling a TurtleSim turtle using higher-level movement commands.
 
+Example: If the user inputs FORWARD 5 1.0, the program will translate that command into the turtle moving forward 5 units at a rate of 1.0 unit per second.
+If the user inputs TURN -90 1.0, then program will furthermore translate that command into the turtle turning -90 degrees, or 90 degrees clockwise, at a angular velocity of 1.0 radians per second.
+
 Program Structure
 -
 The program is broken down into three main components:
