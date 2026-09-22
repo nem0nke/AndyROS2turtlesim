@@ -30,3 +30,9 @@ source /opt/ros/humble/setup.bash
 
 python3 -m src.main
 
+Or from project root:
+cd /workspace/AndyROS2turtlesim
+source /opt/ros/humble/setup.bash
+python3 -m src.main
+
+^^ -m can be changed to smth else if you want to use the test files
