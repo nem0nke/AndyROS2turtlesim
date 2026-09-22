@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package turtlesim_controller;
+
+message TurtleCommand {
+    enum CommandType {
+        STOP = 0;
+        FORWARD = 1;
+        BACKWARD = 2;
+        TURN = 3;
+    }
+
+    CommandType type = 1;
+    float value = 2;
+    float speed = 3;
+}

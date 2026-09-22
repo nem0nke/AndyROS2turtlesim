@@ -1,0 +1,32 @@
+Opens Turtlesim using docker port
+
+Keep XQuartz open. In a normal macOS Terminal window, allow local display
+connections:
+
+bash
+export DISPLAY=:0
+xhost +localhost
+xhost +127.0.0.1
+
+Start and enter the ROS Docker container:
+
+bash
+docker start ros2_humble_dev
+docker exec -it ros2_humble_dev bash
+
+source /opt/ros/humble/setup.bash
+export DISPLAY=host.docker.internal:0
+ros2 run turtlesim turtlesim_node
+
+
+
+For running project code (on a seperate terminal):
+
+bash
+docker exec -it ros2_humble_dev bash
+cd /workspace/AndyROS2turtlesim
+source /opt/ros/humble/setup.bash
+
+
+python3 -m src.main
+
