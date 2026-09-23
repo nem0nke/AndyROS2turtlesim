@@ -1,5 +1,13 @@
 # AndyROS2turtlesim
 
+## Using the turtle
+User input is expected to be in these exact forms:
+* forward <distance> <speed>
+* backward <distance> <speed>
+* turn <angle_degrees> <angular_speed>
+* stop
+* exit
+
 ## Overview
 
 The program will be implemented in Python and run inside a Docker environment. Docker is being used because of compatibility issues encountered when attempting to run ROS 2 natively on macOS.
@@ -73,3 +81,11 @@ Project Pipeline
 6. Implement distance based movement and calculations
 7. Implement angle-based turning and calculations
 8. Connect protobuf with ROS 2 controller
+
+Significant Bugs
+-
+There are two significant observable bugs relating to the code
+* There is a death loop that occurs whenever the turtle goes out of bounds. This like likely due to how break was implemented in the move() function, which doesn't take into account the turtle's position doesn't change once it goes out of bounds
+* There is a calculation error relating to how forward/backward movement corresponds with velocity. This in turn can mean that as the velocity of the turtle increases, the turtle travels further in distance than the user inputted value.
+
+To "avoid" these bugs, you can keep the values for forward and backwards to within [-5, 5] to avoid the turtle from going out of bounds.
