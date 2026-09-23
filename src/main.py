@@ -11,6 +11,7 @@ exit
 
 import math
 
+#Libraries aren't downlaoded locally; they're inside the docker alongside the ros2 stuff
 import rclpy
 from rclpy.node import Node
 
@@ -23,6 +24,7 @@ from proto.turtle_command_pb2 import TurtleCommand
 class TurtleController(Node):
     def __init__(self):
         super().__init__("turtle_controller")
+
 
         self.velocity_publisher = self.create_publisher(
             Twist,
@@ -40,7 +42,7 @@ class TurtleController(Node):
         self.pose = None
 
     def get_pose(self, pose: Pose):
-        """Save TurtleSim's latest position and orientation."""
+        #Save TurtleSim's latest position and orientation.
         self.pose = pose
 
     def handle_command(self, command: TurtleCommand):
@@ -54,7 +56,7 @@ class TurtleController(Node):
             self.stop_turtle()
 
     def move(self, distance: float, speed: float):
-        """Move a measured distance; negative distance moves backward."""
+        #Move a measured distance; negative distance moves backward.
         start_x = self.pose.x
         start_y = self.pose.y
 
@@ -76,7 +78,7 @@ class TurtleController(Node):
         self.stop_turtle()
 
     def rotate(self, angle: float, angular_speed: float):
-        """Turn a measured angle in degrees; negative angle turns right."""
+        #Turn a measured angle in degrees; negative angle turns right.
         target_angle = math.radians(abs(angle))
         last_theta = self.pose.theta
         total_turn = 0.0
@@ -88,6 +90,7 @@ class TurtleController(Node):
             self.velocity_publisher.publish(velocity)
             rclpy.spin_once(self, timeout_sec=0.01)
 
+            #Calculates user input into angles (mainly using inspo from the documentation)
             angle_change = self.pose.theta - last_theta
 
             if angle_change > math.pi:
@@ -108,7 +111,7 @@ class TurtleController(Node):
 
 
 def parse_command(user_input: str) -> TurtleCommand:
-    """Convert valid terminal input into a TurtleCommand protobuf."""
+    #Convert valid terminal input into a TurtleCommand protobuf.
     parts = user_input.split()
     command = TurtleCommand()
 
@@ -119,6 +122,7 @@ def parse_command(user_input: str) -> TurtleCommand:
     command.value = float(parts[1])
     command.speed = float(parts[2])
 
+    #Interprets terminal command to proto command
     if parts[0] == "forward":
         command.type = TurtleCommand.FORWARD
     elif parts[0] == "backward":
@@ -146,7 +150,7 @@ def main():
 
             controller.handle_command(parse_command(user_input))
 
-    finally:
+    finally: #Stops turtle after proto command
         controller.stop_turtle()
         controller.destroy_node()
         rclpy.shutdown()
